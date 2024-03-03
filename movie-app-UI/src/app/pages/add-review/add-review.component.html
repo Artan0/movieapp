@@ -1,0 +1,22 @@
+<div class="review-form-container">
+  <h2 class="text-center mb-4">Add Your Review</h2>
+
+  <form [formGroup]="reviewForm">
+    <div class="form-group">
+      <label for="userReview">Your Review:</label>
+      <textarea
+        id="userReview"
+        name="userReview"
+        formControlName="reviewText"
+        class="form-control"
+        rows="5"
+      ></textarea>
+    </div>
+
+    <div class="text-center mt-3">
+      <button (click)="submitReview()" class="btn btn-primary">
+        Submit Review
+      </button>
+    </div>
+  </form>
+</div>

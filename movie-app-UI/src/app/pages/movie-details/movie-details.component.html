@@ -1,0 +1,70 @@
+<div class="d-flex justify-content-center">
+  <div *ngIf="movie" class="movie-details-container w-25">
+    <h2 class="text-center mb-4">Movie Details</h2>
+
+    <div class="card">
+      <div class="card-body">
+        <p class="card-text"><strong>Title:</strong> {{ movie.title }}</p>
+        <p class="card-text">
+          <strong>Description:</strong> {{ movie.description }}
+        </p>
+        <p class="card-text"><strong>Genre:</strong> {{ movie.genre }}</p>
+        <p class="card-text"><strong>Year:</strong> {{ movie.yr }}</p>
+        <p class="card-text">
+          <strong>Average Rating:</strong>
+          {{ movie.averageRating | number : "1.2-2" }}
+        </p>
+      </div>
+    </div>
+
+    <div *ngIf="movie.ratings && movie.ratings.length > 0" class="mt-4 w-25">
+      <p><strong>Ratings:</strong></p>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let rating of movie.ratings">
+          {{ rating | number : "1.2-2" }}
+        </li>
+      </ul>
+    </div>
+
+    <div *ngIf="!movie.ratings || movie.ratings.length === 0" class="mt-4">
+      No ratings for this movie.
+    </div>
+
+    <div *ngIf="movie.reviews && movie.reviews.length > 0" class="mt-4">
+      <p><strong>Reviews:</strong></p>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let review of movie.reviews">
+          {{ review.reviewText }}
+        </li>
+      </ul>
+    </div>
+
+    <div *ngIf="!movie.reviews || movie.reviews.length === 0" class="mt-4">
+      No reviews to show.
+    </div>
+
+    <div class="mt-4">
+      <label for="userRating"><strong>Your Rating:</strong></label>
+      <input
+        type="number"
+        id="userRating"
+        name="userRating"
+        [(ngModel)]="userRating"
+        min="1"
+        max="10"
+        class="form-control"
+      />
+      <button (click)="submitRating()" class="btn btn-primary mt-2">
+        Submit Rating
+      </button>
+    </div>
+
+    <a
+      [routerLink]="['/movies', movie.id, 'reviews', 'create']"
+      class="btn btn-success mt-4"
+      >Add a Review</a
+    >
+  </div>
+
+  <div *ngIf="!movie" class="text-center mt-4">No movie found.</div>
+</div>

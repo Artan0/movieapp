@@ -1,0 +1,34 @@
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.filter-label {
+  font-weight: bold;
+}
+
+.filter-input,
+.filter-field {
+  width: 150px;
+}
+
+.filter-field {
+  margin-right: 10px;
+}
+
+button {
+  margin-top: 10px;
+}
+
+.add-movie-link {
+  color: red;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.add-movie-link:hover {
+  text-decoration: underline;
+}
