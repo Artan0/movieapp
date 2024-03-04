@@ -16,11 +16,11 @@ export class MoviesComponent implements OnInit {
   filterYear: number | undefined = undefined;
   filterYearFrom: number | undefined = undefined;
   filterYearTo: number | undefined = undefined;
+  sortField: string | undefined = undefined;
+  sortOrder: string | undefined = undefined;
   pageSize: number = 5;
   currentPage: number = 1;
   totalPages: number = 1;
-  sortField: string | undefined = undefined;
-  sortOrder: string | undefined = undefined;
   displayedColumns: string[] = [
     'title',
     'description',

@@ -18,7 +18,6 @@ import org.springframework.data.domain.Sort;
 @Service
 public class MovieServiceImpl implements MovieService {
     private final MovieRepository movieRepository;
-
     public MovieServiceImpl(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
     }
@@ -37,6 +36,7 @@ public class MovieServiceImpl implements MovieService {
     public Movie getMovieById(Long id) {
         return movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException("Movie not found with id: " + id));
     }
+
     @Override
     public Movie rateMovie(Long id, Double rating) {
         Movie movie = getMovieById(id);
@@ -52,13 +52,15 @@ public class MovieServiceImpl implements MovieService {
                               int page, int pageSize, String sortField, String sortOrder) {
         Movie exampleMovie = new Movie(title, null, genre, year, null, null, null);
 
+        Page<Movie> filteredMovies;
+        Pageable pageable;
+
         ExampleMatcher exampleMatcher = ExampleMatcher.matching()
                 .withMatcher("title", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
                 .withMatcher("genre", ExampleMatcher.GenericPropertyMatchers.exact().ignoreCase())
                 .withMatcher("yr", ExampleMatcher.GenericPropertyMatchers.exact());
 
         Example<Movie> example = Example.of(exampleMovie, exampleMatcher);
-        Pageable pageable;
 
         if (sortField != null && sortOrder != null) {
             Sort.Direction direction = sortOrder.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
@@ -67,15 +69,11 @@ public class MovieServiceImpl implements MovieService {
             pageable = PageRequest.of(page - 1, pageSize);
         }
 
-        Page<Movie> filteredMovies;
-
-
         if (yearFrom != null && yearTo != null) {
             filteredMovies = movieRepository.findByYrBetween(yearFrom, yearTo, pageable);
         } else {
             filteredMovies = movieRepository.findAll(example, pageable);
         }
-
         return filteredMovies;
     }
 

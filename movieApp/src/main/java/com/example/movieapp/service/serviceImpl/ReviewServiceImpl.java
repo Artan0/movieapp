@@ -4,18 +4,13 @@ import com.example.movieapp.model.Movie;
 import com.example.movieapp.model.DTO.MovieDTO;
 import com.example.movieapp.model.Review;
 import com.example.movieapp.model.DTO.ReviewDTO;
-import com.example.movieapp.repository.MovieRepository;
 import com.example.movieapp.repository.ReviewRepository;
 import com.example.movieapp.service.MovieService;
 import com.example.movieapp.service.ReviewService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
@@ -25,12 +20,20 @@ public class ReviewServiceImpl implements ReviewService {
         this.reviewRepository = reviewRepository;
         this.movieService = movieService;
     }
+
     @Override
     public Page<ReviewDTO> getAllReviews(Pageable pageable) {
         Page<Review> reviewsPage = reviewRepository.findAll(pageable);
         return reviewsPage.map(this::convertToDTO);
     }
-
+    @Override
+    public Review addReviewMovie(Long id, String text) {
+        Movie movie = movieService.getMovieById(id);
+        Review review = new Review(movie,text);
+        movie.getReviews().add(review);
+        reviewRepository.save(review);
+        return review;
+    }
 
     private ReviewDTO convertToDTO(Review review) {
         ReviewDTO reviewDTO = new ReviewDTO();
@@ -49,13 +52,5 @@ public class ReviewServiceImpl implements ReviewService {
         reviewDTO.setMovie(movieDTO);
 
         return reviewDTO;
-    }
-    @Override
-    public Review addReviewMovie(Long id, String text) {
-        Movie movie = movieService.getMovieById(id);
-        Review review = new Review(movie,text);
-        movie.getReviews().add(review);
-        reviewRepository.save(review);
-        return review;
     }
 }

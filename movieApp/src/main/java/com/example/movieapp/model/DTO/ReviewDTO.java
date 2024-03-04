@@ -1,6 +1,5 @@
 package com.example.movieapp.model.DTO;
 
-import com.example.movieapp.model.DTO.MovieDTO;
 import lombok.Data;
 
 @Data
