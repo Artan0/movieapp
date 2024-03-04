@@ -8,6 +8,10 @@ import com.example.movieapp.repository.MovieRepository;
 import com.example.movieapp.repository.ReviewRepository;
 import com.example.movieapp.service.MovieService;
 import com.example.movieapp.service.ReviewService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,12 +26,12 @@ public class ReviewServiceImpl implements ReviewService {
         this.movieService = movieService;
     }
     @Override
-    public List<ReviewDTO> getAllReviews() {
-        List<Review> reviews = reviewRepository.findAll();
-        return reviews.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public Page<ReviewDTO> getAllReviews(Pageable pageable) {
+        Page<Review> reviewsPage = reviewRepository.findAll(pageable);
+        return reviewsPage.map(this::convertToDTO);
     }
+
+
     private ReviewDTO convertToDTO(Review review) {
         ReviewDTO reviewDTO = new ReviewDTO();
         reviewDTO.setId(review.getId());
