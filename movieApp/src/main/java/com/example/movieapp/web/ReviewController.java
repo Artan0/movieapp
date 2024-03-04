@@ -1,9 +1,7 @@
 package com.example.movieapp.web;
 
-import com.example.movieapp.model.Movie;
-import com.example.movieapp.model.Review;
+import com.example.movieapp.model.DTO.ReviewDTO;
 import com.example.movieapp.service.ReviewService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +18,8 @@ public class ReviewController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<Review>> listReviews() {
-        List<Review> reviews = reviewService.getAllReviews();
+    public ResponseEntity<List<ReviewDTO>> getAllReviews() {
+        List<ReviewDTO> reviews = reviewService.getAllReviews();
         return new ResponseEntity<>(reviews, HttpStatus.OK);
     }
 

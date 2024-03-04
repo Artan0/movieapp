@@ -33,11 +33,25 @@ public class MovieServiceImpl implements MovieService {
         return movie;
     }
 
+    @Override
+    public Movie getMovieById(Long id) {
+        return movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException("Movie not found with id: " + id));
+    }
+    @Override
+    public Movie rateMovie(Long id, Double rating) {
+        Movie movie = getMovieById(id);
+        movie.getRatings().add(rating);
+        double sum = movie.getRatings().stream().mapToDouble(Double::doubleValue).sum();
+        double average = sum / movie.getRatings().size();
+        movie.setAverageRating(average);
+        movieRepository.save(movie);
+        return movie;
+    }
+
     public Page<Movie> filter(String title, String genre, Integer year, Integer yearFrom, Integer yearTo,
                               int page, int pageSize, String sortField, String sortOrder) {
         Movie exampleMovie = new Movie(title, null, genre, year, null, null, null);
 
-        // Adjust the exampleMovie for filtering by a range of years
         if ((yearFrom != null && yearTo != null) && (yearFrom <= yearTo)) {
             exampleMovie.setYr(null);
         }
@@ -58,23 +72,6 @@ public class MovieServiceImpl implements MovieService {
         }
 
         return movieRepository.findAll(example, pageable);
-    }
-
-
-
-    @Override
-    public Movie getMovieById(Long id) {
-        return movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException("Movie not found with id: " + id));
-    }
-    @Override
-    public Movie rateMovie(Long id, Double rating) {
-        Movie movie = getMovieById(id);
-        movie.getRatings().add(rating);
-        double sum = movie.getRatings().stream().mapToDouble(Double::doubleValue).sum();
-        double average = sum / movie.getRatings().size();
-        movie.setAverageRating(average);
-        movieRepository.save(movie);
-        return movie;
     }
 }
 

@@ -28,7 +28,11 @@ button {
   font-weight: bold;
   font-size: 16px;
 }
-
+.text-danger {
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+}
 .add-movie-link:hover {
   text-decoration: underline;
 }

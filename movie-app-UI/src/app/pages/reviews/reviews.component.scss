@@ -1,0 +1,19 @@
+.reviews-list-container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.review-item {
+  margin-bottom: 20px;
+}
+
+.card-body {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

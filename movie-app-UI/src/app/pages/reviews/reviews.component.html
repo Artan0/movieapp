@@ -1,1 +1,24 @@
-<p>reviews works!</p>
+<div class="reviews-list-container">
+  <h2 class="text-center mb-4">Reviews</h2>
+
+  <div *ngFor="let rev of reviews" class="review-item">
+    <div class="card" [routerLink]="['/movies', rev?.movie?.id]">
+      <div class="card-body">
+        <p class="card-text"><strong>Review:</strong> {{ rev?.reviewText }}</p>
+        <p class="card-text">
+          <strong>Movie Title:</strong> {{ rev?.movie?.title }}
+        </p>
+        <p class="card-text">
+          <strong>Description:</strong> {{ rev?.movie?.description }}
+        </p>
+        <p class="card-text">
+          <strong>Average Rating:</strong> {{ rev?.movie?.averageRating }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!reviews || reviews.length === 0" class="text-center mt-4">
+    No reviews to show.
+  </div>
+</div>
