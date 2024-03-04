@@ -86,6 +86,7 @@ export class MoviesComponent implements OnInit {
 
   onPageChange(event: PageEvent): void {
     this.currentPage = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
       queryParams: { page: this.currentPage },

@@ -52,10 +52,6 @@ public class MovieServiceImpl implements MovieService {
                               int page, int pageSize, String sortField, String sortOrder) {
         Movie exampleMovie = new Movie(title, null, genre, year, null, null, null);
 
-        if ((yearFrom != null && yearTo != null) && (yearFrom <= yearTo)) {
-            exampleMovie.setYr(null);
-        }
-
         ExampleMatcher exampleMatcher = ExampleMatcher.matching()
                 .withMatcher("title", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
                 .withMatcher("genre", ExampleMatcher.GenericPropertyMatchers.exact().ignoreCase())
@@ -71,7 +67,17 @@ public class MovieServiceImpl implements MovieService {
             pageable = PageRequest.of(page - 1, pageSize);
         }
 
-        return movieRepository.findAll(example, pageable);
+        Page<Movie> filteredMovies;
+
+
+        if (yearFrom != null && yearTo != null) {
+            filteredMovies = movieRepository.findByYrBetween(yearFrom, yearTo, pageable);
+        } else {
+            filteredMovies = movieRepository.findAll(example, pageable);
+        }
+
+        return filteredMovies;
     }
+
 }
 

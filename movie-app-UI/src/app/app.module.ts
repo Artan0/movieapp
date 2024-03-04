@@ -37,7 +37,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatSortModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatPaginatorModule,
     MatTableModule,
     MatSortModule,
     BrowserAnimationsModule,
